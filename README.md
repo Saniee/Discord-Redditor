@@ -1,1 +1,2 @@
-# DiscordRedditorBot
+# Discord Redditor
+A Discord Bot
