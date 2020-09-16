@@ -26,7 +26,7 @@ snooper.watcher.getPostWatcher('dankmemes')
             .setURL('https://www.reddit.com/r/factorio/')
             .setTimestamp()
             .setFooter('Automated Message by Discord-Redditor!')
-        channel.send(NewPostEmbed)
+        client.channel.send(NewPostEmbed)
     })
     .on('error', console.error)  
 
