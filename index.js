@@ -15,14 +15,6 @@ client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
 });
 
-var NewPostEmbed = new Discord.MessageEmbed()
-    .setAuthor(post.data.author)
-    .setTitle(post.data.title)
-    .setImage(post.data.url)
-    .setURL('https://www.reddit.com/r/factorio/')
-    .setTimestamp()
-    .setFooter('Automated Message by Discord-Redditor!')
-
 snooper.watcher.getPostWatcher('dankmemes')
     .on('post', function(post) {
         sendEmbed(post)
@@ -30,6 +22,13 @@ snooper.watcher.getPostWatcher('dankmemes')
     .on('error', console.error)  
 
 function sendEmbed(post, client) {
+    var NewPostEmbed = new Discord.MessageEmbed()
+        .setAuthor(post.data.author)
+        .setTitle(post.data.title)
+        .setImage(post.data.url)
+        .setURL('https://www.reddit.com/r/factorio/')
+        .setTimestamp()
+        .setFooter('Automated Message by Discord-Redditor!')
     console.log(`New post! By ${post.data.author}`)
     client.channels.get("586636934005260483").send(NewPostEmbed);
 }
