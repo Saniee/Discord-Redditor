@@ -1,12 +1,13 @@
 module.exports = {
     apps: [
         {
-            name: "Index",
+            name: "Discord-Redditor",
             script: "./index.js",
             watch: true,
             env: {
                 "NODE_ENV": "development",
-                "TOKEN": "bla bla"
+                "TOKEN": "bla bla",
+                "api_secret": "bla bla"
             }
         }
     ]

@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Saniee/Discord-Redditor#readme",
   "dependencies": {
-    "discord.js": "^12.3.1"
+    "discord.js": "^12.3.1",
+    "reddit-snooper": "1.0.1"
   }
 }
