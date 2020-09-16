@@ -30,7 +30,7 @@ function sendEmbed(post, client) {
         .setTimestamp()
         .setFooter('Automated Message by Discord-Redditor!')
     console.log(`New post! By ${post.data.author}`)
-    client.channels.get("586636934005260483").send(NewPostEmbed);
+    client.channels.cache.get("586636934005260483").send(NewPostEmbed);
 }
 
 client.login(process.env.TOKEN)
