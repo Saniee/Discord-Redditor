@@ -17,18 +17,15 @@ client.on('ready', () => {
 
 snooper.watcher.getPostWatcher('dankmemes')
     .on('post', function(post) {
-        console.log(`Post Posted by: ${post.data.author}`)
-        console.log(post)
+        var NewPostEmbed = new Discord.MessageEmbed()
+            .setAuthor(post.data.author)
+            .setTitle(post.data.title)
+            .setImage(post.data.url)
+            .setURL('https://www.reddit.com/r/factorio/')
+            .setTimestamp()
+            .setFooter('Automated Message by Discord-Redditor!')
         message.channel.send(NewPostEmbed)
     })
     .on('error', console.error)  
-
-var NewPostEmbed = new Discord.MessageEmbed()
-.setAuthor(post.data.author)
-.setTitle(post.data.title)
-.setImage(post.data.url)
-.setURL('https://www.reddit.com/r/factorio/')
-.setTimestamp()
-.setFooter('Automated Message by Discord-Redditor!')
 
 client.login(process.env.TOKEN)
