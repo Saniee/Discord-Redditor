@@ -21,8 +21,8 @@ snooper.watcher.getPostWatcher('dankmemes')
     })
     .on('error', console.error)  
 
-function sendEmbed(post) {
-    const channel = client.channels.cache.find(channel => channel.id === 586636934005260483)
+function sendEmbed(post, Discord) {
+    const channel = client.channels.cache.find(channel => channel.id === '586636934005260483')
     console.log(`New post! By ${post.data.author}`)
     var NewPostEmbed = new Discord.MessageEmbed()
         .setAuthor(post.data.author)
