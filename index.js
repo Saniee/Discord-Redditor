@@ -19,6 +19,7 @@ var NewPostEmbed = new Discord.MessageEmbed()
     .setAuthor(post.data.author)
     .setTitle(post.data.title)
     .setImage(post.data.url)
+    .setURL('https://www.reddit.com/r/factorio/')
     .setTimestamp()
     .setFooter('Automated Message by Discord-Redditor!')
 
