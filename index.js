@@ -18,21 +18,18 @@ client.on('ready', () => {
 const channel = client.channels.cache.find(channel => channel.id === 586636934005260483)
 
 snooper.watcher.getPostWatcher('dankmemes')
-    .on('post', function(post) {
+    .on('post', function(post, Discord) {
         console.log(`New post! By ${post.data.author}`)
-        var post = post;
+        console.log(post)
+        var NewPostEmbed = new Discord.MessageEmbed()
+            .setAuthor(post.data.author)
+            .setTitle(post.data.title)
+            .setImage(post.data.url)
+            .setURL('https://www.reddit.com/r/factorio/')
+            .setTimestamp()
+            .setFooter('Automated Message by Discord-Redditor!')
+        channel.send(NewPostEmbed)
     })
     .on('error', console.error)  
-
-console.log(post)
-var NewPostEmbed = new Discord.MessageEmbed()
-    .setAuthor(post.data.author)
-    .setTitle(post.data.title)
-    .setImage(post.data.url)
-    .setURL('https://www.reddit.com/r/factorio/')
-    .setTimestamp()
-    .setFooter('Automated Message by Discord-Redditor!')
-channel.send(NewPostEmbed)
-
 
 client.login(process.env.TOKEN)
