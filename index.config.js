@@ -7,7 +7,8 @@ module.exports = {
             env: {
                 "NODE_ENV": "development",
                 "TOKEN": "bla bla",
-                "api_secret": "bla bla"
+                "api_secret": "bla bla",
+                "CHANNELID": "586636934005260483"
             }
         }
     ]
