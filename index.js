@@ -15,6 +15,8 @@ client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
 });
 
+const channel = client.channels.cache.find(channel => channel.id === 586636934005260483)
+
 snooper.watcher.getPostWatcher('dankmemes')
     .on('post', function(post) {
         var NewPostEmbed = new Discord.MessageEmbed()
@@ -24,7 +26,7 @@ snooper.watcher.getPostWatcher('dankmemes')
             .setURL('https://www.reddit.com/r/factorio/')
             .setTimestamp()
             .setFooter('Automated Message by Discord-Redditor!')
-        message.channel.send(NewPostEmbed)
+        channel.send(NewPostEmbed)
     })
     .on('error', console.error)  
 
