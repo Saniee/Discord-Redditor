@@ -1,3 +1,3 @@
 # Discord Redditor
 A Discord Bot
-[(https://travis-ci.com/Saniee/Discord-Redditor.svg?branch=master)]
+[![Build Status](https://travis-ci.com/Saniee/Discord-Redditor.svg?branch=master)](https://travis-ci.com/github/Saniee/Discord-Redditor)
