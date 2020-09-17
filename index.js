@@ -1,5 +1,7 @@
 const Discord = require('discord.js');
 const Snooper = require('reddit-snooper')
+const got = require('got');
+const FileType = require('file-type');
 
 const client = new Discord.Client();
 
@@ -23,7 +25,23 @@ snooper.watcher.getPostWatcher('factorio')
     .on('error', console.error)  
 
 function sendEmbed(post, client) {
-    var NewPostEmbed = new Discord.MessageEmbed()
+    var NewPostNoMedia = new Discord.MessageEmbed()
+        .setAuthor(`Author: ${post.data.author}`)
+        .setTitle(post.data.title)
+        .setDescription(post.data.selftext)
+        .setImage(post.data.url)
+        .setURL(`https://www.reddit.com${post.data.permalink}`)
+        .setTimestamp()
+        .setFooter('Automated Message by Discord-Redditor!')
+    var NewPostMedia = new Discord.MessageEmbed()
+        .setAuthor(`Author: ${post.data.author}`)
+        .setTitle(post.data.title)
+        .setDescription(post.data.selftext)
+        .setImage(post.data.url)
+        .setURL(`https://www.reddit.com${post.data.permalink}`)
+        .setTimestamp()
+        .setFooter('Automated Message by Discord-Redditor!')
+    var NewPostRedditGallery = new Discord.MessageEmbed()
         .setAuthor(`Author: ${post.data.author}`)
         .setTitle(post.data.title)
         .setDescription(post.data.selftext)
@@ -33,7 +51,23 @@ function sendEmbed(post, client) {
         .setFooter('Automated Message by Discord-Redditor!')
     console.log(`New post! By ${post.data.author}`)
     console.log(post)
-    client.channels.cache.get(`${process.env.CHANNELID}`).send(NewPostEmbed);
+
+    const url = `${post.data.url}`;
+ 
+    (async () => {
+        const stream = got.stream(url);
+    
+        console.log(await FileType.fromStream(stream));
+        //=> {ext: 'jpg', mime: 'image/jpeg'}
+    })();
+
+    if (post.data.media == "null") {
+        client.channels.cache.get(`${process.env.CHANNELID}`).send(NewPostNoMedia);
+    } else {
+        client.channels.cache.get(`${process.env.CHANNELID}`).send(NewPostMedia);
+    }
+
+    client.channels.cache.get(`${process.env.CHANNELID}`).send(NewPostRedditGallery);
 }
 
 client.login(process.env.TOKEN)
