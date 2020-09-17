@@ -24,7 +24,7 @@ snooper.watcher.getPostWatcher('factorio')
     })
     .on('error', console.error)  
 
-function sendEmbed(post, client) {
+async function sendEmbed(post, client) {
     var NewPostNoMedia = new Discord.MessageEmbed()
         .setAuthor(`Author: ${post.data.author}`)
         .setTitle(post.data.title)
@@ -36,38 +36,44 @@ function sendEmbed(post, client) {
     var NewPostMedia = new Discord.MessageEmbed()
         .setAuthor(`Author: ${post.data.author}`)
         .setTitle(post.data.title)
-        .setDescription(post.data.selftext)
-        .setImage(post.data.url)
+        .setDescription(`${post.data.url}`, post.data.selftext)
+        .setThumbnail(post.data.thumbnail)
         .setURL(`https://www.reddit.com${post.data.permalink}`)
         .setTimestamp()
         .setFooter('Automated Message by Discord-Redditor!')
     var NewPostRedditGallery = new Discord.MessageEmbed()
         .setAuthor(`Author: ${post.data.author}`)
         .setTitle(post.data.title)
-        .setDescription(post.data.selftext)
-        .setImage(post.data.url)
+        .setDescription(post.data.selftext, `${post.data.url}`)
+        .setThumbnail(post.data.thumbnail)
         .setURL(`https://www.reddit.com${post.data.permalink}`)
         .setTimestamp()
         .setFooter('Automated Message by Discord-Redditor!')
     console.log(`New post! By ${post.data.author}`)
     console.log(post)
 
-    const url = `${post.data.url}`;
- 
-    (async () => {
-        const stream = got.stream(url);
-    
-        console.log(await FileType.fromStream(stream));
-        //=> {ext: 'jpg', mime: 'image/jpeg'}
-    })();
-
     if (post.data.media == "null") {
-        client.channels.cache.get(`${process.env.CHANNELID}`).send(NewPostNoMedia);
+        await media(got, FileType);
     } else {
         client.channels.cache.get(`${process.env.CHANNELID}`).send(NewPostMedia);
     }
 
     client.channels.cache.get(`${process.env.CHANNELID}`).send(NewPostRedditGallery);
+
+    const url = `${post.data.url}`;
+ 
+    async function media(got, FileType) {
+        const stream = got.stream(url);
+    
+        var file = await FileType.fromStream(stream);
+        if (file.ext == "jpg" || file.ext == "png") {
+            try {
+                client.channels.cache.get(`${process.env.CHANNELID}`).send(NewPostNoMedia); 
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    }
 }
 
 client.login(process.env.TOKEN)
