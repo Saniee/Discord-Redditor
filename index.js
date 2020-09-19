@@ -58,7 +58,7 @@ async function sendEmbed(post, client) {
         client.channels.cache.get(`${process.env.CHANNELID}`).send(NewPostMedia);
     }
 
-    client.channels.cache.get(`${process.env.CHANNELID}`).send(NewPostRedditGallery);
+    //client.channels.cache.get(`${process.env.CHANNELID}`).send(NewPostRedditGallery);
 
     const url = `${post.data.url}`;
  
