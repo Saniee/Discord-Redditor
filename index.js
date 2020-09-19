@@ -52,7 +52,7 @@ async function sendEmbed(post, client) {
     console.log(`New post! By ${post.data.author}`)
     console.log(post)
 
-    if (post.data.media == "null") {
+    if (post.data.media == null) {
         await media(got, FileType);
     } else {
         client.channels.cache.get(`${process.env.CHANNELID}`).send(NewPostMedia);
