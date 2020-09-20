@@ -47,7 +47,6 @@ async function media(got, FileType, post) {
         .setAuthor(`Author: ${post.data.author}`)
         .setTitle(post.data.title)
         .setDescription(post.data.selftext, `${post.data.url}`)
-        .setThumbnail(post.data.thumbnail)
         .setURL(`https://www.reddit.com${post.data.permalink}`)
         .setTimestamp()
         .setFooter('Automated Message by Discord-Redditor!')
@@ -64,13 +63,14 @@ async function media(got, FileType, post) {
 
     var file = await FileType.fromStream(stream);
     
-    if (file.ext == "jpg" || file.ext == "png") {
+    console.log(file);
+    if (file) {
         try {
             client.channels.cache.get(`${process.env.CHANNELID}`).send(NewPostNoMedia); 
         } catch (error) {
             console.log(error);
         }
-    } else {
+    } else if (!file) {
         try {
             client.channels.cache.get(`${process.env.CHANNELID}`).send(NewPostRedditGallery);
         } catch (error) {
