@@ -1,5 +1,7 @@
 const Discord = require('discord.js');
 const Snooper = require('reddit-snooper')
+const got = require('got');
+const FileType = require('file-type');
 
 const client = new Discord.Client();
 
@@ -22,8 +24,33 @@ snooper.watcher.getPostWatcher('factorio')
     })
     .on('error', console.error)  
 
-function sendEmbed(post, client) {
-    var NewPostEmbed = new Discord.MessageEmbed()
+async function sendEmbed(post, client) {
+    var NewPostMedia = new Discord.MessageEmbed()
+        .setAuthor(`Author: ${post.data.author}`)
+        .setTitle(post.data.title)
+        .setDescription(`${post.data.url}`, post.data.selftext)
+        .setThumbnail(post.data.thumbnail)
+        .setURL(`https://www.reddit.com${post.data.permalink}`)
+        .setTimestamp()
+        .setFooter('Automated Message by Discord-Redditor!')
+    console.log(post)
+
+    if (post.data.media == null) {
+        await media(got, FileType, post);
+    } else {
+        client.channels.cache.get(`${process.env.CHANNELID}`).send(NewPostMedia);
+    }
+}
+
+async function media(got, FileType, post) {
+    var NewPostRedditGallery = new Discord.MessageEmbed()
+        .setAuthor(`Author: ${post.data.author}`)
+        .setTitle(post.data.title)
+        .setDescription(post.data.selftext, `${post.data.url}`)
+        .setURL(`https://www.reddit.com${post.data.permalink}`)
+        .setTimestamp()
+        .setFooter('Automated Message by Discord-Redditor!')
+    var NewPostNoMedia = new Discord.MessageEmbed()
         .setAuthor(`Author: ${post.data.author}`)
         .setTitle(post.data.title)
         .setDescription(post.data.selftext)
@@ -31,9 +58,25 @@ function sendEmbed(post, client) {
         .setURL(`https://www.reddit.com${post.data.permalink}`)
         .setTimestamp()
         .setFooter('Automated Message by Discord-Redditor!')
-    console.log(`New post! By ${post.data.author}`)
-    console.log(post)
-    client.channels.cache.get(`${process.env.CHANNELID}`).send(NewPostEmbed);
+
+    const stream = got.stream(post.data.url);
+
+    var file = await FileType.fromStream(stream);
+    
+    console.log(file);
+    if (file) {
+        try {
+            client.channels.cache.get(`${process.env.CHANNELID}`).send(NewPostNoMedia); 
+        } catch (error) {
+            console.log(error);
+        }
+    } else if (!file) {
+        try {
+            client.channels.cache.get(`${process.env.CHANNELID}`).send(NewPostRedditGallery);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
 
 client.login(process.env.TOKEN)
