@@ -25,14 +25,6 @@ snooper.watcher.getPostWatcher('factorio')
     .on('error', console.error)  
 
 async function sendEmbed(post, client) {
-    var NewPostNoMedia = new Discord.MessageEmbed()
-        .setAuthor(`Author: ${post.data.author}`)
-        .setTitle(post.data.title)
-        .setDescription(post.data.selftext)
-        .setImage(post.data.url)
-        .setURL(`https://www.reddit.com${post.data.permalink}`)
-        .setTimestamp()
-        .setFooter('Automated Message by Discord-Redditor!')
     var NewPostMedia = new Discord.MessageEmbed()
         .setAuthor(`Author: ${post.data.author}`)
         .setTitle(post.data.title)
@@ -41,6 +33,16 @@ async function sendEmbed(post, client) {
         .setURL(`https://www.reddit.com${post.data.permalink}`)
         .setTimestamp()
         .setFooter('Automated Message by Discord-Redditor!')
+    console.log(post)
+
+    if (post.data.media == null) {
+        await media(got, FileType, post);
+    } else {
+        client.channels.cache.get(`${process.env.CHANNELID}`).send(NewPostMedia);
+    }
+}
+
+async function media(got, FileType, post) {
     var NewPostRedditGallery = new Discord.MessageEmbed()
         .setAuthor(`Author: ${post.data.author}`)
         .setTitle(post.data.title)
@@ -49,29 +51,30 @@ async function sendEmbed(post, client) {
         .setURL(`https://www.reddit.com${post.data.permalink}`)
         .setTimestamp()
         .setFooter('Automated Message by Discord-Redditor!')
-    console.log(`New post! By ${post.data.author}`)
-    console.log(post)
+    var NewPostNoMedia = new Discord.MessageEmbed()
+        .setAuthor(`Author: ${post.data.author}`)
+        .setTitle(post.data.title)
+        .setDescription(post.data.selftext)
+        .setImage(post.data.url)
+        .setURL(`https://www.reddit.com${post.data.permalink}`)
+        .setTimestamp()
+        .setFooter('Automated Message by Discord-Redditor!')
 
-    if (post.data.media == null) {
-        await media(got, FileType);
-    } else {
-        client.channels.cache.get(`${process.env.CHANNELID}`).send(NewPostMedia);
-    }
+    const stream = got.stream(post.data.url);
 
-    //client.channels.cache.get(`${process.env.CHANNELID}`).send(NewPostRedditGallery);
-
-    const url = `${post.data.url}`;
- 
-    async function media(got, FileType) {
-        const stream = got.stream(url);
+    var file = await FileType.fromStream(stream);
     
-        var file = await FileType.fromStream(stream);
-        if (file.ext == "jpg" || file.ext == "png") {
-            try {
-                client.channels.cache.get(`${process.env.CHANNELID}`).send(NewPostNoMedia); 
-            } catch (error) {
-                console.log(error);
-            }
+    if (file.ext == "jpg" || file.ext == "png") {
+        try {
+            client.channels.cache.get(`${process.env.CHANNELID}`).send(NewPostNoMedia); 
+        } catch (error) {
+            console.log(error);
+        }
+    } else {
+        try {
+            client.channels.cache.get(`${process.env.CHANNELID}`).send(NewPostRedditGallery);
+        } catch (error) {
+            console.log(error);
         }
     }
 }
