@@ -79,4 +79,4 @@ async function media(got, FileType, post) {
     }
 }
 
-client.login('NzA2NTg5NjQ1NzU2MDM5MjE5.Xq8c4w.dmxTIhC7G-Wc7BDDIhAluVDrLjs')
+client.login(process.env.TOKEN)
