@@ -18,7 +18,7 @@ client.on('ready', () => {
     client.user.setActivity('/r/factorio', {type: 'WATCHING'})
 });
 
-snooper.watcher.getPostWatcher('factorio')
+snooper.watcher.getPostWatcher('factorio', 'factoriohno')
     .on('post', function(post) {
         sendEmbed(post, client)
     })
@@ -79,4 +79,4 @@ async function media(got, FileType, post) {
     }
 }
 
-client.login(process.env.TOKEN)
+client.login('NzA2NTg5NjQ1NzU2MDM5MjE5.Xq8c4w.dmxTIhC7G-Wc7BDDIhAluVDrLjs')
