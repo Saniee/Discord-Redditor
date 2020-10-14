@@ -18,7 +18,7 @@ client.on('ready', () => {
     client.user.setActivity('/r/factorio', {type: 'WATCHING'})
 });
 
-snooper.watcher.getPostWatcher('factorio')
+snooper.watcher.getPostWatcher('factorio', 'factoriohno')
     .on('post', function(post) {
         sendEmbed(post, client)
     })
