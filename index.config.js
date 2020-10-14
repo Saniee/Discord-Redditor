@@ -4,6 +4,7 @@ module.exports = {
             name: "Discord-Redditor",
             script: "./index.js",
             watch: true,
+            cron_restart: "5 0 * * *",
             env: {
                 "NODE_ENV": "development",
                 "TOKEN": "bla bla",
