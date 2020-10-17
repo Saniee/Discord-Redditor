@@ -44,7 +44,9 @@ async function sendEmbed(post, client) {
     if (post.data.media == null) {
         await media(got, FileType, post);
     } else {
+        client.channels.cache.get(`${process.env.CHANNELID}`).startTyping();
         client.channels.cache.get(`${process.env.CHANNELID}`).send(NewPostMedia);
+        client.channels.cache.get(`${process.env.CHANNELID}`).stopTyping();
     }
 }
 
@@ -72,13 +74,17 @@ async function media(got, FileType, post) {
     console.log(file);
     if (file) {
         try {
-            client.channels.cache.get(`${process.env.CHANNELID}`).send(NewPostNoMedia); 
+            client.channels.cache.get(`${process.env.CHANNELID}`).startTyping();
+            client.channels.cache.get(`${process.env.CHANNELID}`).send(NewPostNoMedia);
+            client.channels.cache.get(`${process.env.CHANNELID}`).stopTyping(); 
         } catch (error) {
             console.log(error);
         }
     } else if (!file) {
         try {
+            client.channels.cache.get(`${process.env.CHANNELID}`).startTyping();
             client.channels.cache.get(`${process.env.CHANNELID}`).send(NewPostRedditGallery);
+            client.channels.cache.get(`${process.env.CHANNELID}`).stopTyping(); 
         } catch (error) {
             console.log(error);
         }
